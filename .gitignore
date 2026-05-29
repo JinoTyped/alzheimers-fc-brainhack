@@ -1,0 +1,21 @@
+# Data - never commit ADNI imaging data (data use agreement + size)
+data/
+results/
+*.nii
+*.nii.gz
+*.dcm
+
+# Processing outputs / containers
+fmriprep_out/
+fmriprep_work/
+*.simg
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# OS / editor
+.DS_Store
+.ipynb_checkpoints/
