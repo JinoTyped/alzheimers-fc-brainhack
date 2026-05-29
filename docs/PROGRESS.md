@@ -1,6 +1,6 @@
 # Progress Tracker
 
-_Last updated: May 28, 2026 (Week 3, Day 3 — SciNet, full fMRIprep batch running)_
+_Last updated: May 28, 2026 (Week 3, Day 3 — SciNet, fMRIprep COMPLETE, all 50/50)_
 
 ## Pipeline status
 
@@ -9,7 +9,7 @@ _Last updated: May 28, 2026 (Week 3, Day 3 — SciNet, full fMRIprep batch runni
 | 1 | Select subjects (25 AD + 25 CN) | DONE | Zaki |
 | 2 | Download DICOMs from ADNI | DONE | Zaki |
 | 3 | DICOM -> BIDS conversion (dcm2bids) | DONE | Zaki |
-| 4 | fMRIprep preprocessing on SciNet | IN PROGRESS | Zaki |
+| 4 | fMRIprep preprocessing on SciNet | DONE (50/50) | Zaki |
 | 5 | Seed-based FC analysis (Nilearn) | NOT STARTED | Michael |
 | 6 | Group analysis AD vs CN | NOT STARTED | Michael |
 | 7 | Figures, presentation, report | NOT STARTED | All |
@@ -21,6 +21,7 @@ _Last updated: May 28, 2026 (Week 3, Day 3 — SciNet, full fMRIprep batch runni
 - [ ] Fix pitch slide: "task-based fMRI" -> "resting-state fMRI"
 - [x] Test SciNet teach cluster login (done May 26)
 - [x] Confirm SciNet job limit (done — 12 jobs in the QUEUE, not 12 running; see decision log)
+- [ ] @Ju-Chi on Discord that preprocessing is COMPLETE, 50/50 (Erin/Ju-Chi asked) — ready to send (May 28)
 
 ## What's done in detail
 
@@ -89,27 +90,41 @@ _Last updated: May 28, 2026 (Week 3, Day 3 — SciNet, full fMRIprep batch runni
   derivatives/subject (per-subject footprint ~3 GB: 2.1 work + 1 derivatives).
 - Michael + Jino nudged (May 28) to start their parallel tracks.
 
+**Week 3 Day 3 (evening) — fMRIprep COMPLETE: all 50/50 (May 28).**
+- The throttled batch finished; verified with the missing-BOLD check (for every
+  `sub-` in `~/adni/bids`, the final
+  `..._space-MNI152NLin6Asym_res-2_desc-preproc_bold.nii.gz` exists). Check
+  prints nothing → all 50 present. Step 4 DONE, well inside the Week 3 target.
+- **9 subjects failed `--use-syn-sdc` and were re-run without distortion
+  correction.** These 9 — 019S6585, 019S6712, 100S6713, 114S6039, 123S6825,
+  130S6072, 177S6448, 305S6810, 305S6881 — errored with
+  `Fieldmap-less (SyN) estimation was requested, but PhaseEncodingDirection
+  information appears to be absent`. Their BOLD JSON sidecars lack
+  `PhaseEncodingDirection`, so SyN-SDC can't run. Fix: for these 9, `run2_fmri.sh`
+  was switched from `--use-syn-sdc` to `--ignore fieldmaps slicetiming`, then
+  resubmitted — all completed. See decision log + Open questions. NOTE: these are
+  exactly the subjects to scrutinize first in the sgACC coverage QC (step 5 #2),
+  since the seed region is dropout-prone and these 9 have NO distortion
+  correction.
+- Final pipeline split: 41 subjects ran with `--use-syn-sdc`; 9 ran with
+  `--ignore fieldmaps`. Worth a methods/limitations line.
+
 ## What's next (immediate)
 
-1. Let the batch finish (~3-4 h; 49 subjects, ~42 min each, 12 in the queue
-   at a time). Monitor: `tail ~/adni/code/fmriprep/submit_all.log`,
-   `squeue -u $USER`, and
-   `ls ~/derivatives/adni/fmriprep/25.2.4/ | grep -c '^sub-'` (climbs to 50).
-2. When `squeue` is empty, verify every subject has its final output and
-   re-run any that don't (fMRIprep resumes leftover work). Read-only check —
-   for each `sub-` in `~/adni/bids`, confirm this exists:
-   `~/derivatives/adni/fmriprep/25.2.4/sub-<L>/func/sub-<L>_task-rest_space-MNI152NLin6Asym_res-2_desc-preproc_bold.nii.gz`
-   Resubmit `run2_fmri.sh <L>` for any missing; loop until none are missing.
-   Also sanity-check failures: `sacct -X --starttime today --format=JobID,JobName%18,State,ExitCode | grep -v COMPLETED`.
-3. When all 50 final BOLDs are present, Step 4 is DONE — mark it and update
-   `PIPELINE.md`.
-4. sgACC seed-region coverage / tSNR QC (the gate flagged at the proposal;
-   `PIPELINE.md` step 5 #2) — confirm the seed carries usable BOLD across all
-   subjects before trusting FC. Needs the seed coordinate.
-5. In parallel — Michael: lock the sgACC seed coordinate + citation, then the
-   Nilearn seed-to-voxel FC code (runs directly on these derivatives); Jino:
-   GitHub repo + presentation scaffold.
-6. @Ju-Chi on Discord that preprocessing works (Erin/Ju-Chi asked).
+1. **Step 4 is DONE** — all 50 preprocessed. (Optional final tidiness: failure scan
+   `sacct -X --starttime today --format=JobID,JobName%18,State,ExitCode | grep fmriprep_fmri | grep -v COMPLETED`.)
+2. **sgACC seed-region coverage / tSNR QC** (the gate flagged at the proposal;
+   `PIPELINE.md` step 5 #2) — confirm the seed carries usable BOLD across all 50
+   before trusting FC. Needs the seed coordinate from Michael. **Check the 9
+   no-distortion-correction subjects first** (listed above) — most at risk.
+3. **Michael — now unblocked:** lock the sgACC seed coordinate + citation, then
+   write the Nilearn seed-to-voxel FC code; it runs directly on
+   `~/derivatives/adni/fmriprep/25.2.4/`.
+4. **Jino:** GitHub repo + folder structure + `.gitignore` (no MRI data) and the
+   presentation deck scaffold.
+5. @Ju-Chi on Discord that preprocessing is complete (Erin/Ju-Chi asked).
+6. Tally the scanner-vendor split per group for the group-analysis covariate
+   decision (open question below).
 
 ## Decision log
 
@@ -203,6 +218,19 @@ _Last updated: May 28, 2026 (Week 3, Day 3 — SciNet, full fMRIprep batch runni
   to delete each subject's scratch on success. fMRIprep scripts (`run1_anat.sh`,
   `run2_fmri.sh`, `submit_all.sh`) + `dataset_description.json` all belong in
   the repo.
+- **9 subjects preprocessed WITHOUT distortion correction.** (May 28.) Nine
+  subjects (019S6585, 019S6712, 100S6713, 114S6039, 123S6825, 130S6072,
+  177S6448, 305S6810, 305S6881) failed at workflow-build with
+  `Fieldmap-less (SyN) estimation was requested, but PhaseEncodingDirection
+  information appears to be absent` — their BOLD JSON sidecars have no
+  `PhaseEncodingDirection`, which `--use-syn-sdc` requires. Re-ran these 9 with
+  `--ignore fieldmaps slicetiming` (in place of `--use-syn-sdc`); all completed.
+  RESULT: 41/50 ran with SyN distortion correction, 9/50 with none. Implication:
+  the sgACC is dropout-prone, so the 9 uncorrected subjects are the highest risk
+  in the step-5 coverage/tSNR QC — check them first. Methods/limitations line
+  required. (Why only these 9 lack PE direction: likely a vendor/export quirk —
+  several are Philips; not yet pinned down, and not worth pinning down unless
+  the QC flags them.)
 
 ## Open questions / to confirm
 
@@ -215,3 +243,5 @@ _Last updated: May 28, 2026 (Week 3, Day 3 — SciNet, full fMRIprep batch runni
 - Final sgACC seed coordinate — to be chosen with a citation (Michael).
 - sgACC signal coverage — confirm the seed region carries usable BOLD
   signal (tSNR / coverage check post-fMRIprep). See `PIPELINE.md` step 5.
+  **Check the 9 no-distortion-correction subjects first** (listed in the
+  decision log) — they have no SyN-SDC and the sgACC is dropout-prone.

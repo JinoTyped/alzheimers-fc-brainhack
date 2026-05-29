@@ -75,7 +75,7 @@ Optional before fMRIprep: run the BIDS Validator on `~/adni/bids`.
 
 ---
 
-## Step 4 — fMRIprep preprocessing on SciNet  [IN PROGRESS]
+## Step 4 — fMRIprep preprocessing on SciNet  [DONE — 50/50]
 
 The school provides the SciNet Teach cluster for this.
 
@@ -206,16 +206,25 @@ the `until sbatch ...`); fMRIprep resumes leftover work. Repeat until the
 check prints nothing. Failure scan:
 `sacct -X --starttime today --format=JobID,JobName%18,State,ExitCode | grep -v COMPLETED`.
 
-### Status (May 28)
+### Status (May 28 — COMPLETE)
 
 - Full pipeline PROVEN end-to-end on sub-003S6264 (anat ~21 min, func ~22 min,
   both `0:0`). All offline/template/BIDS issues resolved.
-- Remaining 49 subjects launched via `submit_all.sh` under `nohup` — running.
+- All 50 subjects preprocessed. Verified with the missing-BOLD check (below) —
+  prints nothing → every subject has its final
+  `..._space-MNI152NLin6Asym_res-2_desc-preproc_bold.nii.gz`.
+- **9 subjects required a fieldmap fix.** 019S6585, 019S6712, 100S6713,
+  114S6039, 123S6825, 130S6072, 177S6448, 305S6810, 305S6881 failed at
+  workflow-build: `Fieldmap-less (SyN) estimation was requested, but
+  PhaseEncodingDirection information appears to be absent`. Their BOLD sidecars
+  lack `PhaseEncodingDirection`. Fix: in `run2_fmri.sh`, replaced
+  `--use-syn-sdc` with `--ignore fieldmaps slicetiming` and resubmitted — all
+  completed. So the final dataset is 41 subjects with SyN-SDC + 9 with no
+  distortion correction. Flag the 9 first in the step-5 sgACC coverage QC.
 - Outputs: preprocessed BOLD in MNI152NLin6Asym:res-2 + a `confounds` TSV per
   subject (head-motion covariate comes from the TSV). Per-subject disk ~3 GB
   (work auto-deleted on success → ~1 GB derivatives kept).
-
-Target: all preprocessing done by end of Week 3.
+- Target met: all preprocessing done in Week 3.
 
 ---
 
