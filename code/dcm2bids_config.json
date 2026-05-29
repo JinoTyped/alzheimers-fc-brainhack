@@ -1,0 +1,36 @@
+{
+    "descriptions": [
+        {
+            "id": "t1w",
+            "datatype": "anat",
+            "suffix": "T1w",
+            "criteria": {
+                "SeriesDescription": "*MPRAGE*"
+            }
+        },
+        {
+            "id": "rest_rsfmri",
+            "datatype": "func",
+            "suffix": "bold",
+            "custom_entities": "task-rest",
+            "criteria": {
+                "SeriesDescription": "*rsfMRI*"
+            },
+            "sidecar_changes": {
+                "TaskName": "rest"
+            }
+        },
+        {
+            "id": "rest_fcmri",
+            "datatype": "func",
+            "suffix": "bold",
+            "custom_entities": "task-rest",
+            "criteria": {
+                "SeriesDescription": "*fcMRI*"
+            },
+            "sidecar_changes": {
+                "TaskName": "rest"
+            }
+        }
+    ]
+}

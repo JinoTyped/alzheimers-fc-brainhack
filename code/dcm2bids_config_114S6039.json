@@ -1,0 +1,24 @@
+{
+    "descriptions": [
+        {
+            "id": "t1w",
+            "datatype": "anat",
+            "suffix": "T1w",
+            "criteria": {
+                "MRAcquisitionType": "3D"
+            }
+        },
+        {
+            "id": "rest",
+            "datatype": "func",
+            "suffix": "bold",
+            "custom_entities": "task-rest",
+            "criteria": {
+                "MRAcquisitionType": "2D"
+            },
+            "sidecar_changes": {
+                "TaskName": "rest"
+            }
+        }
+    ]
+}
