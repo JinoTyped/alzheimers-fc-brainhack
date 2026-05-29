@@ -1,7 +1,8 @@
 # Pipeline — Technical Steps
 
-Step-by-step guide for the remaining work. Steps 1-3 are done; step 4
-(fMRIprep) is next. Cluster paths below are on the SciNet Teach cluster
+Step-by-step guide for the work. Steps 1-4 are DONE (data downloaded,
+BIDS-converted, all 50 subjects preprocessed); step 5 (seed-based FC in
+Nilearn) is next. Cluster paths below are on the SciNet Teach cluster
 (`teach.scinet.utoronto.ca`, userid `lcl_uotmsc1127s1935`).
 
 ---
