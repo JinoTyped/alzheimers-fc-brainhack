@@ -4,6 +4,7 @@ results/
 *.nii
 *.nii.gz
 *.dcm
+*.tsv
 
 # Processing outputs / containers
 fmriprep_out/
