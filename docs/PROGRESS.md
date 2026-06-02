@@ -1,6 +1,8 @@
 # Progress Tracker
 
-_Last updated: June 1, 2026 (Week 4, Day 1 — full FC pipeline run end-to-end; seed QC done)_
+_Last updated: June 2, 2026 (Week 4 — control seed + sensitivity analyses run;
+null is robust; team meeting done. Next: GitHub re-upload of corrected files +
+deck for June 5.)_
 
 ## Pipeline status
 
@@ -11,117 +13,98 @@ _Last updated: June 1, 2026 (Week 4, Day 1 — full FC pipeline run end-to-end; 
 | 3 | DICOM -> BIDS conversion (dcm2bids) | DONE | Zaki |
 | 4 | fMRIprep preprocessing on SciNet | DONE | Zaki |
 | 5 | Seed-based FC analysis (Nilearn) + seed QC | DONE | Michael (code) / Zaki (run) |
-| 6 | Group analysis AD vs CN | DONE (result confounded — see below) | Zaki |
-| 7 | Figures, presentation, report | NOT STARTED | All |
+| 6 | Group analysis AD vs CN + sensitivity analyses | DONE (robust null — see KEY FINDING) | Zaki |
+| 7 | Figures, presentation, report | IN PROGRESS | All |
 
 ## Side tasks
 
-- [x] Lock sgACC seed coordinate + citation — DONE (Fox et al. 2012; see decision log)
+- [x] Lock sgACC seed coordinate + citation — Fox et al. 2012, (6,16,-10), 5 mm
 - [x] Confirm SciNet job limit (12 in the queue)
-- [x] Test SciNet teach cluster login
-- [ ] Set up GitHub repo + structure + `.gitignore` — repo exists; push today's code (`code/connectivity/`) + updated docs
+- [x] Push connectivity code to GitHub (`code/connectivity/`) — code-only, .gitignore now also excludes `*.tsv`
+- [ ] **Re-upload corrected `fc_utilities.py` (5 mm) + `seed_qc.py` (CLI version) + sensitivity scripts** so GitHub matches what was run
+- [ ] Michael: GitHub push access (got the invite email — "should be working"; confirm)
 - [ ] Fix pitch slide: "task-based fMRI" -> "resting-state fMRI"
-- [ ] Confirm grading weights + deadline dates against the syllabus (still unconfirmed)
+- [ ] Confirm grading weights + deadline dates against the syllabus (UNCONFIRMED — do not present ~20/30/30/20 or June 5/26 as fact until checked)
 
 ## What's done in detail
 
-**Steps 1-3 (selection, download, BIDS).** Unchanged — see earlier entries and
-`DATA_SELECTION.md` / `PIPELINE.md`.
-
-**Step 4 — fMRIprep preprocessing (complete).**
-- All 50 subjects preprocessed on the SciNet Teach cluster; every subject has its
-  final `space-MNI152NLin6Asym_res-2_desc-preproc_bold.nii.gz` + confounds TSV.
-  Verified with the read-only "MISSING" loop (printed nothing).
-- Outputs in `~/derivatives/adni/fmriprep/25.2.4/`.
+**Steps 1-4 (selection, download, BIDS, preprocessing).** Complete — see
+`DATA_SELECTION.md` and `PIPELINE.md`. All 50 subjects through fMRIprep
+(MNI152NLin6Asym res-2; `--use-syn-sdc`, `--fs-no-reconall`), verified.
 
 **Step 5 — Seed-based FC + QC (complete).**
-- Michael's first-draft FC code was debugged into a working `fc_utilities.py`
-  (`first_level` per subject, `second_level` for the group model). Proven
-  end-to-end on sub-003S6264, then run across all 50.
-- Seed: Fox et al. 2012 sgACC, MNI (6, 16, -10), **5 mm** sphere (matches the
-  paper's ROI).
-- Per-subject seed-to-voxel Pearson r -> Fisher-z maps written next to each
-  subject's BOLD as `..._desc-sgaccFCz.nii.gz`.
-- Batched as one short job per subject (`fc_one.sh` + `submit_fc.sh`, throttled to
-  the 12-job queue cap, skip-if-exists), ~40 min for all 50.
-- **Seed coverage / tSNR QC done** (`seed_qc.py`) — the gate flagged at the
-  proposal. See the finding below.
+- Working `fc_utilities.py` (`first_level` per subject, `second_level` group),
+  debugged from Michael's draft.
+- Seed: Fox et al. 2012, MNI (6,16,-10), **5 mm** sphere. `SEED_RADIUS` in the
+  code was reconciled to 5 (it had drifted to 6); sgACC QC re-run at 5 mm —
+  numbers unchanged, confirming robustness to radius.
+- Per-subject Fisher-z maps; batched one short job per subject.
+- Seed coverage/tSNR QC done — see KEY FINDING.
 
-**Step 6 — Group analysis (run; result not interpretable as a disease effect).**
-- `SecondLevelModel`, AD vs CN, covariates age (mean-centered) + sex + mean FD.
-- **At FDR q < 0.05, no voxels survive** (max |z| ~5.2). An exploratory
-  uncorrected map (voxel p < 0.001) shows only scattered, spatially incoherent
-  voxels — consistent with no robust group difference.
-- This null is expected given the QC confound below; the comparison as run cannot
-  be interpreted as an AD-vs-CN connectivity difference.
+**Step 6 — Group analysis + sensitivity (run; robust null).**
+- Primary: `SecondLevelModel`, AD vs CN, covariates age (centered) + sex +
+  mean FD. **FDR q<0.05: no voxels survive** (max |z| ~5.2). Uncorrected
+  p<0.001: scattered, incoherent voxels.
+- **Sensitivity 1 — exclude scanner site 168** (n=42; AD 18 / CN 24). Matching
+  HOLDS after exclusion: sex Fisher exact p=1.000 (9M/9F vs 12M/12F), age
+  73.1 vs 74.7 (t=-0.50, p=0.62). FDR still empty. (`results_no168/`)
+- **Sensitivity 2 — motion outlier rejection (2-SD, twice)** (n=45; drops
+  013S6768 + 168S6142 on pass 1, then 011S4827 / 003S4350 / 014S6437 on pass 2).
+  FDR still empty. (`results_motion2sd/`)
+- Both sensitivity models return threshold=inf / empty mask -> the null is
+  stable across every reasonable subsetting.
 
-## KEY FINDING — seed signal-quality confound (June 1)
+## KEY FINDING — seed signal-quality confound (the headline)
 
-The sgACC seed coverage/tSNR QC turned up a real, presentable result:
-
-- **AD has systematically worse signal at the sgACC seed than CN.** Group means:
-  AD seed tSNR ~30, coverage 0.91; CN seed tSNR ~43, coverage 0.98.
-- **17 of 50 subjects flagged** (tSNR < 20 or coverage < 0.9): **12 AD, 5 CN.**
-- **Driven largely by site 168**, which contributes ~7 subjects to AD and ~1 to
-  CN and has uniformly poor sgACC tSNR. So scanner site and group are partially
-  the same variable here — a site x group confound.
-- **Robust to seed radius:** the 5 mm and 6 mm runs give nearly identical QC
-  numbers, so this is a genuine seed-location / site problem, not a parameter
-  artifact.
-
-Implication: a naive AD-vs-CN sgACC FC comparison in this sample is confounded by
-seed-region signal quality (susceptibility dropout, worse in AD/site-168). The QC
-itself is the strongest result and should anchor the presentation. (QC table saved
-as `seed_qc.tsv`.)
+- **AD has systematically worse signal at the sgACC seed than CN:** mean seed
+  tSNR AD 30.2 / CN 42.5; coverage AD 0.91 / CN 0.98. **17/50 flagged**
+  (tSNR<20 or coverage<0.9): **12 AD, 5 CN**, with **7 of the AD flags from
+  scanner site 168** (site x group confound). Robust to seed radius (5≈6 mm).
+- **POSITIVE CONTROL — PCC / DMN seed (0,-52,26), 5 mm:** mean tSNR AD 65.8 /
+  CN 72.3, coverage 1.0 / 1.0, **0 subjects flagged.** The same AD/site-168
+  scans that crater to 7-13 tSNR at the sgACC sit at 50-84 at the PCC. =>
+  the deficit is **location-specific (susceptibility dropout at the sgACC),
+  not a global AD data-quality problem and not subject-specific.**
+- Honest nuance to keep in the talk: a small global AD<CN tSNR gap remains at
+  PCC (~9%, 66 vs 72) but the sgACC gap is ~3x larger (~29%, 30 vs 43) and is
+  the only place coverage drops / subjects flag.
+- Implication: the AD-vs-CN sgACC FC comparison is confounded by seed-region
+  signal quality / scanner site and cannot be read as a disease effect.
+  **Anchor the presentation on the QC + the sgACC-vs-PCC contrast.**
+  (Tables: `seed_qc.tsv`, `seed_qc_pcc.tsv`.)
 
 ## What's next (immediate)
 
-1. **June 1 meeting (12:30):** decide (a) correction method — FDR vs cluster-level
-   (cluster-level is more sensitive); (b) how to frame the QC/confound for June 5;
-   (c) whether to run sensitivity analyses.
-2. **Push to GitHub:** today's code under `code/connectivity/` (`fc_utilities.py`,
-   `build_participants.py`, `seed_qc.py`, `fc_one.sh`, `submit_fc.sh`); update
-   `requirements.txt` (nilearn, nibabel, pandas, matplotlib); push these docs.
-3. **Figures + deck** for June 5 — lead with the QC finding.
-4. Confirm grading weights + deadline dates against the syllabus.
+1. **GitHub:** re-upload corrected `fc_utilities.py` (5 mm) + `seed_qc.py`
+   (CLI) + `motion_outlier.py` + `exclude_site168.py` to `code/connectivity/`.
+2. **Figures + deck (June 5):** lead with QC. Money figures: per-group seed
+   tSNR/coverage (`seed_qc.tsv`); the sgACC-vs-PCC tSNR comparison
+   (`seed_qc.tsv` vs `seed_qc_pcc.tsv`); glass-brain from `results_unc/`.
+   Assign slides across Zaki / Michael / Jino; loop Lyanne in Thursday.
+3. **Report — June 26.**
+4. (Optional) add mean seed-tSNR as a covariate in `second_level` as a third
+   sensitivity check — almost certainly also null, rounds out the set.
 
-## Decision log (additions June 1)
+## Decision log (additions June 2)
 
-- **sgACC seed LOCKED: Fox et al. 2012, MNI (6, 16, -10), 5 mm sphere.**
-  Fox MD, Buckner RL, White MP, Greicius MD, Pascual-Leone A. "Efficacy of
-  transcranial magnetic stimulation targets for depression is related to
-  intrinsic functional connectivity with the subgenual cingulate." Biol
-  Psychiatry 2012;72(7):595-603. doi:10.1016/j.biopsych.2012.04.028. (Canonical
-  sgACC coordinate from a depression-TMS context, reused here as a standard sgACC
-  location. Radius set to 5 mm to match the paper's ROI.)
-- **FC code design (debugged from Michael's draft).** Both maskers use
-  `standardize="zscore_sample"` so `dot(brain.T, seed)/n` is a Pearson r (not a
-  covariance) before Fisher-z. Confounds via `load_confounds` (motion + wm_csf),
-  which also handles the NaN first frame. TR read per-subject from the BOLD JSON
-  sidecar (sample is multi-vendor). Second-level uses an explicit design matrix
-  (intercept, group [AD=1/CN=0], mean-centered age, sex, mean FD) with FC maps
-  loaded in the same order as `participants.tsv`. matplotlib forced to the Agg
-  backend (headless cluster).
-- **FC batching = one job per subject + throttled submitter.** A single serial
-  job over 50 subjects exceeded the 4h walltime (~8 min/subject). Switched to one
-  `fc_one.sh` job per subject via `submit_fc.sh` (skip-if-exists, <=12 in queue),
-  mirroring the fMRIprep batching pattern. ~40 min for all 50.
-- **Group result is a confounded null.** No voxels survive FDR q<0.05 for AD vs
-  CN. Not interpreted as a disease effect because of the seed signal-quality
-  confound (see KEY FINDING).
+- **Correction method LOCKED: FDR q<0.05.** Cluster-level and TFCE discussed
+  and set aside (FDR is sufficient; team familiar with it; no blob to chase).
+- **Presentation framing LOCKED: lead with the QC confound; do not fish for a
+  blob.** "If there's no blob, there's no blob" (team consensus).
+- **Control seed added (positive control): PCC (0,-52,26), 5 mm.** Confirms the
+  sgACC signal deficit is location-specific (see KEY FINDING).
+- **Seed radius reconciled to 5 mm in code** (`SEED_RADIUS` had drifted to 6);
+  sgACC QC regenerated at 5 mm, numbers unchanged.
+- **Sensitivity analyses run; null is robust** — exclude-site-168 (matching
+  holds, p=1.0 / p=0.62) and motion 2-SD-twice both stay empty at FDR.
+- **Motion handling:** primary model keeps all 50 (motion is already a
+  covariate); 2-SD-twice reported as a sensitivity check. 013S6768 (mean FD
+  ~0.80) kept in primary, dropped in the motion-sensitivity model.
 
 ## Open questions / to confirm
 
-- **Correction method** — FDR q<0.05 (current) vs cluster-level thresholding.
-  Team decision; cluster-level may be more sensitive given small n + sgACC
-  dropout.
-- **How to handle the confound** — options to discuss: present the QC as the
-  headline finding; add mean seed-tSNR as a group-analysis covariate; exclude
-  flagged / site-168 subjects (note: drops ~12 AD -> badly underpowered);
-  add scanner/site as a covariate (partly collinear with group).
-- **High-motion subject 013S6768** (AD, mean FD ~0.80) — decide whether to apply a
-  motion threshold or leave it (it's in the model as a covariate).
-- **Scanner-vendor confound** — now has concrete evidence via site 168; tie this
-  to the QC finding in the methods/limitations.
-- Exact grading weights and deadline dates — confirm against the syllabus
-  (~20/30/30/20 and June 5 / June 26 still unconfirmed).
+- Grading weights + deadline dates — confirm against the syllabus (~20/30/30/20
+  and June 5 / June 26 still UNCONFIRMED).
+- Lyanne's separate rsfMRI analysis — get an update Thursday; decide if/how it
+  features in the deck.
+- (Optional) seed-tSNR-as-covariate sensitivity model — run or not.
