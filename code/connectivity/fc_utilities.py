@@ -50,7 +50,7 @@ from nilearn.plotting import plot_glass_brain
 # a commonly used sgACC seed; Michael used radius=5, PIPELINE.md notes 6 mm is
 # typical. Lock this with the paper you cite.
 SGACC_COORDS = [(6, 16, -10)]   # MNI152 - VERIFY against citation
-SEED_RADIUS = 5                 # mm
+SEED_RADIUS = 5                 # mm, Fox et al. 2012
 
 # Resting-state bandpass
 LOW_PASS = 0.1
