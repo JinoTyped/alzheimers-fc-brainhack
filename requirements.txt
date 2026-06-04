@@ -1,6 +1,14 @@
-nilearn
-nibabel
-numpy
-scipy
-pandas
-matplotlib
+# Analysis (seed-based FC) — pinned to the SciNet venv (~/venv_nilearn);
+# Compute Canada local-build suffixes (+computecanada) stripped for PyPI install.
+nilearn==0.13.1
+nibabel==5.4.2
+numpy==2.4.2
+scipy==1.17.0
+pandas==3.0.0
+matplotlib==3.10.8
+
+# Preprocessing: DICOM -> BIDS
+dcm2bids==3.2.0
+
+# fMRIprep 25.2.4 runs as an Apptainer/Singularity container, not via pip:
+#   fmriprep-25.2.4.simg  (see code/preprocessing/)
