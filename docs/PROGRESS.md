@@ -54,7 +54,8 @@ and `PIPELINE.md`.
   flagged**); the same AD scans that crater near tSNR ~10 at the sgACC sit at
   50–80 at the PCC. Confirms the AD signal deficit is **sgACC-specific**
   (a dropout-localized effect), not globally bad data.
-  [TODO: record exact PCC MNI coord + code path in PIPELINE.md.]
+  PCC seed: MNI (0, -52, 26), 5 mm (`seed_qc.py --coords 0,-52,26 --radius 5
+  --suffix pcc --label PCC`); figure via `qc_figures.py`.
 
 **Step 6 — Group analysis (run; not interpretable as a disease effect).**
 - `SecondLevelModel`, AD vs CN, covariates age (centered) + sex + mean FD.

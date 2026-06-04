@@ -51,8 +51,9 @@ control and sensitivity analyses; figures are done and the deck is finalized
   (max |z| ~5.2). Uncorrected p<0.001 shows only scattered noise.
 - **Seed coverage / tSNR QC done** (`seed_qc.py`) — and it's the key result.
 - **PCC positive control done** — same QC at a low-dropout posterior-cingulate
-  seed: AD ~66 / CN ~72 tSNR, full coverage, zero flagged. Proves the AD
-  deficit is sgACC-specific, not global. This is the deck's money slide.
+  seed (MNI 0, −52, 26, 5 mm): AD ~66 / CN ~72 tSNR, full coverage, zero
+  flagged. Proves the AD deficit is sgACC-specific, not global. This is the
+  deck's money slide.
 - **Sensitivity analyses done** — exclude site 168 (n=42, groups stay matched
   sex p=1.0 / age p=0.62) still null; iterative 2-SD high-motion removal still
   null. The null is robust (also settles the high-motion subject 013S6768).

@@ -107,7 +107,10 @@ Run: `python seed_qc.py` -> prints a table + per-group means, writes
 ### PCC positive-control seed  ** clinching control (added June 4) **
 Re-ran `seed_qc.py` at a low-dropout DMN node (posterior cingulate) to test
 whether the AD signal deficit is sgACC-specific or just globally bad data.
-- PCC seed: [TODO record exact MNI coord used] — a reliable, no-dropout region.
+- PCC seed: MNI **(0, -52, 26)**, 5 mm (same radius as the sgACC seed) — a
+  reliable, low-dropout posterior-cingulate DMN node. Generated with:
+  `python seed_qc.py --coords 0,-52,26 --radius 5 --suffix pcc --label PCC`
+  -> `seed_qc_pcc.tsv`.
 - Result: AD ~66 / CN ~72 mean tSNR, full coverage, **zero flagged**. The same
   AD scans that crater near tSNR ~10 at the sgACC sit at 50–80 at the PCC.
 - There is a small overall AD<CN tSNR gap at the PCC (~9%), but the sgACC gap
@@ -115,7 +118,9 @@ whether the AD signal deficit is sgACC-specific or just globally bad data.
 - => the deficit is **sgACC-specific** (susceptibility dropout), not global.
 - Figure: sgACC vs PCC tSNR by group (per-subject points + group mean ± SEM,
   flag line at tSNR 20) — the deck's money slide.
-  [TODO: record the PCC/figure script name alongside `seed_qc.py`.]
+  Figure script: `qc_figures.py` (reads `seed_qc.tsv` + `seed_qc_pcc.tsv`,
+  writes `figures/tsnr_sgacc_vs_pcc.png`). Sensitivity scripts:
+  `exclude_site168.py`, `motion_outlier.py`.
 
 ## Step 6 — Group analysis (AD vs CN)  [DONE]
 
