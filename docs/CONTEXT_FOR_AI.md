@@ -27,8 +27,10 @@ analysis code + seed coordinate; GitHub `chichael-meng`), and Jino (repo, deck,
 figures). Lyanne contributes separate rsfMRI work, limited availability. Two
 other members aren't contributing.
 
-**WHERE I AM NOW (June 2, 2026 — Week 4; final presentation ~June 5):**
-The whole pipeline is DONE end-to-end. Specifically:
+**WHERE I AM NOW (June 4, 2026 — Week 4, Thursday; presenting Fri June 5,
+3:00–3:20 pm):** The whole pipeline is DONE end-to-end, plus a PCC positive
+control and sensitivity analyses; figures are done and the deck is finalized
+(minus a cut Lyanne slide). Specifically:
 
 - **Preprocessing complete** — all 50 subjects through fMRIprep
   (MNI152NLin6Asym, 2 mm; `--use-syn-sdc`, `--fs-no-reconall`). Verified.
@@ -48,6 +50,12 @@ The whole pipeline is DONE end-to-end. Specifically:
   age (mean-centered) + sex + mean FD. **No voxels survive FDR q<0.05**
   (max |z| ~5.2). Uncorrected p<0.001 shows only scattered noise.
 - **Seed coverage / tSNR QC done** (`seed_qc.py`) — and it's the key result.
+- **PCC positive control done** — same QC at a low-dropout posterior-cingulate
+  seed: AD ~66 / CN ~72 tSNR, full coverage, zero flagged. Proves the AD
+  deficit is sgACC-specific, not global. This is the deck's money slide.
+- **Sensitivity analyses done** — exclude site 168 (n=42, groups stay matched
+  sex p=1.0 / age p=0.62) still null; iterative 2-SD high-motion removal still
+  null. The null is robust (also settles the high-motion subject 013S6768).
 
 **THE KEY FINDING (this anchors the presentation):** the sgACC seed does not
 carry equal-quality signal in the two groups. AD mean seed tSNR ~30 (coverage
@@ -69,14 +77,21 @@ defensible story.
 - Outputs: `results/` (FDR, empty by design), `results_unc/` (uncorrected map +
   glass-brain PNG), `participants.tsv`, `seed_qc.tsv`.
 
-**Open decisions (team, at the June 2 meeting):**
-1. Correction method — FDR q<0.05 (current) vs cluster-level (more sensitive).
-2. How to frame the QC confound for June 5 (lead with it as the finding).
-3. Any sensitivity analysis — add mean seed-tSNR as a covariate, or exclude
-   flagged/site-168 subjects (caveat: drops AD to ~13, underpowered).
-4. High-motion subject 013S6768 (mean FD ~0.80) — threshold or keep.
-5. Confirm grading weights + June 5/26 dates against the syllabus (unconfirmed).
-6. Michael's GitHub push access (his code still on Drive).
+**Decisions (mostly resolved as of June 4):**
+1. Correction method → **FDR q<0.05 primary** (uncorrected p<0.001 only for a
+   visible exploratory map; cluster-level not pursued).
+2. QC confound framing → **lead with it**; PCC control is the clincher.
+3. Sensitivity → **done** (exclude site 168 still null; high-motion removal
+   still null).
+4. High-motion subject 013S6768 → **removed in sensitivity, null unchanged.**
+5. Lyanne's slide → **cut** (not presenting Friday); presenters Michael/Zaki/Jino.
+
+**Still open:**
+- Grading weights — confirm against the syllabus (~20/30/30/20; slot date/time
+  June 5 3:00–3:20 and report June 26 are confirmed, weights are not).
+- GitHub push of `code/connectivity/` + docs + requirements; Michael's push
+  access (his code still on Drive).
+- Slide 3 resting-state fix in the built deck (was "task-based").
 
 **GitHub:** repo `alzheimers-fc-brainhack` (user `afwh12`), uploads via the web
 UI. Code-only (ADNI data never committed). Today's code goes under

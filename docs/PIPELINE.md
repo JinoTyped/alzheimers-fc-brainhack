@@ -104,6 +104,19 @@ Run: `python seed_qc.py` -> prints a table + per-group means, writes
 - => seed signal quality is confounded with group/site; the FC comparison
   can't be read as a disease effect. See PROGRESS.md KEY FINDING.
 
+### PCC positive-control seed  ** clinching control (added June 4) **
+Re-ran `seed_qc.py` at a low-dropout DMN node (posterior cingulate) to test
+whether the AD signal deficit is sgACC-specific or just globally bad data.
+- PCC seed: [TODO record exact MNI coord used] — a reliable, no-dropout region.
+- Result: AD ~66 / CN ~72 mean tSNR, full coverage, **zero flagged**. The same
+  AD scans that crater near tSNR ~10 at the sgACC sit at 50–80 at the PCC.
+- There is a small overall AD<CN tSNR gap at the PCC (~9%), but the sgACC gap
+  is ~3× that and is the only place coverage drops and subjects get flagged.
+- => the deficit is **sgACC-specific** (susceptibility dropout), not global.
+- Figure: sgACC vs PCC tSNR by group (per-subject points + group mean ± SEM,
+  flag line at tSNR 20) — the deck's money slide.
+  [TODO: record the PCC/figure script name alongside `seed_qc.py`.]
+
 ## Step 6 — Group analysis (AD vs CN)  [DONE]
 
 ### participants.tsv
@@ -127,17 +140,29 @@ DATA_SELECTION.md; `mean_fd` computed from each confounds file via the
 shows scattered, spatially incoherent voxels. Interpreted as a confounded null
 (see Step 5 QC), not a disease effect.
 
-**[DECIDE — team]** correction method (FDR vs cluster-level); whether to run a
-sensitivity analysis (mean seed-tSNR as covariate; exclude flagged/site-168 ->
-underpowered; site as covariate -> partly collinear with group).
+### Sensitivity analyses (added June 4) — null is robust
+- **Exclude site 168 entirely (n=42):** groups remain matched (sex p=1.0, age
+  p=0.62); still no voxels survive FDR.
+- **Iterative 2-SD high-motion removal on mean FD (applied twice):** still null.
+  This is how 013S6768 (mean FD ~0.80) is handled — removed; result unchanged.
+- => the negative result is not an artifact of site or motion.
+
+**[RESOLVED — team, June 4]** Correction = FDR q<0.05 primary (uncorrected
+p<0.001 only for a visible exploratory map; cluster-level not pursued).
+Confound handling = QC headline + PCC control + the sensitivity analyses above;
+no seed-tSNR/site covariate model needed for the talk.
 
 ## Step 7 — Figures, presentation, report  [IN PROGRESS]
 
-- Figures: seed location; group glass-brain (`results_unc/AD_vs_CN_sgACC_FC.png`);
-  **per-group seed tSNR/coverage from `seed_qc.tsv` (the money figure)**.
-- Presentation ~June 5 — lead with the QC confound finding.
-- Report ~June 26 — include the methods detail from DATA_SELECTION.md and the
-  QC/confound. (Dates unconfirmed — verify against the syllabus.)
+- Figures (done): sgACC seed location/anatomy (proposal deck's area-25 image);
+  uncorrected group glass-brain (`results_unc/AD_vs_CN_sgACC_FC.png`);
+  flagged-subjects bar chart (sgACC, 12 AD / 5 CN); **sgACC-vs-PCC tSNR by
+  group (the money slide)**.
+- Presentation: **Fri June 5, 3:00–3:20 pm** (confirmed). Talk ~7 min, 20-min
+  slot with Q&A. Presenters: Michael, Zaki, Jino (Lyanne slide cut). Lead with
+  the QC confound; PCC control is the clincher.
+- Report ~June 26 — include the methods detail from DATA_SELECTION.md, the
+  QC/confound, the PCC control, and the sensitivity analyses.
 
 ---
 

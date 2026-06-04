@@ -23,7 +23,7 @@ cognitively normal older adults?
 | Zaki | Project lead. Data pipeline: download -> BIDS -> fMRIprep. |
 | Jino | Repo setup, figures/deck scaffolding, preprocessing support. |
 | Michael | Nilearn FC analysis code, sgACC seed coordinate, visualization. |
-| Lyanne | Took the course last year — use as a debugging / sanity-check resource. |
+| Lyanne | Took the course last year — debugging / sanity-check resource; ran a separate rsfMRI analysis. **Not presenting Fri June 5** (her slide was cut); stays on title/thanks as a team member. |
 | Rehan | Not contributing — plan around. |
 | Gabby | Not contributing — plan around. |
 
@@ -39,7 +39,7 @@ costs nothing grade-wise.
 | Done | — | Project pitch presentation |
 | Week 3 — Tue May 26, Wed May 27 | SciNet Classroom, Suite 1140, 661 University Ave (arrive before 10am) | Download data, BIDS conversion, run fMRIprep |
 | Week 4 — Mon June 1 | TMU Atrium on Bay | Instructor check-in on preprocessing progress; finalize analysis |
-| Week 4 — Thu/Fri June 4-5 | Data Sciences Institute, 700 University Ave | Final figures; **present June 5** |
+| Week 4 — Thu/Fri June 4-5 | Data Sciences Institute, 700 University Ave | Final figures; **present Fri June 5, 3:00–3:20 pm** (confirmed; ~7 min talk, presenters Michael/Zaki/Jino) |
 | By June 26 | — | Final report submitted |
 
 **Goal for end of Week 3:** preprocessing finished and the analysis
@@ -81,5 +81,6 @@ tracks at once:
   Mitigation: tSNR / coverage check on the seed after fMRIprep
   (`PIPELINE.md` step 5); check for fieldmaps at DICOM conversion and use
   distortion correction if available.
-- Slide fix outstanding: the pitch timeline slide says "task-based fMRI" —
-  the project is resting-state. Correct before it reaches the report.
+- Slide fix in progress: the pitch timeline slide said "task-based fMRI" — the
+  project is resting-state. Being corrected in the final deck (slide 3) before
+  it reaches the report.
