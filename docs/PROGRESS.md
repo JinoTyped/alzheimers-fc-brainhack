@@ -1,6 +1,6 @@
 # Progress Tracker
 
-_Last updated: June 4, 2026 (Week 4, Thursday — PCC positive control + sensitivity analyses added; figures done; deck finalized minus the cut Lyanne slide; presenting Fri June 5, 3:00–3:20)_
+_Last updated: June 14, 2026 — Gallery submission complete: index.md report written from the KB + 3 figures, PR #430 opened to the BHS website (awaiting maintainer merge). IMS peer-assessment form submitted. All figures pulled off the cluster locally ahead of the June 21 account cutoff. Report deadline CONFIRMED June 26._
 
 ## Pipeline status
 
@@ -12,7 +12,7 @@ _Last updated: June 4, 2026 (Week 4, Thursday — PCC positive control + sensiti
 | 4 | fMRIprep preprocessing on SciNet | DONE | Zaki |
 | 5 | Seed-based FC (Nilearn) + seed QC + PCC control | DONE | Michael (code) / Zaki (run, QC) |
 | 6 | Group analysis AD vs CN + sensitivity | DONE (result confounded — see KEY FINDING) | Zaki |
-| 7 | Figures, presentation, report | IN PROGRESS (figures done; deck builds today; report June 26) | Zaki, Michael, Jino |
+| 7 | Figures, presentation, report/gallery | DONE — presented June 5; gallery PR #430 submitted (awaiting merge) | Zaki, Michael, Jino |
 
 ## Side tasks
 
@@ -23,10 +23,13 @@ _Last updated: June 4, 2026 (Week 4, Thursday — PCC positive control + sensiti
 - [x] Money figures done (flagged-subjects bar; sgACC-vs-PCC tSNR; glass-brain)
 - [x] Slide 2 anatomy image — reuse the sgACC (area 25) figure from the proposal deck
 - [x] Cut slide 8 (Lyanne's analysis) — Lyanne not presenting Friday; presenters Michael/Zaki/Jino
-- [ ] Slide 3 resting-state fix (was "task-based") — Zaki handling
-- [ ] Push today's code to GitHub (`code/connectivity/`) + updated docs + requirements
+- [x] Slide 3 resting-state fix (was "task-based") — done before the June 5 talk
+- [ ] Push final connectivity code to the project repo (`code/connectivity/`) + updated docs + requirements (separate from the gallery PR)
 - [ ] Michael: get GitHub push access working (code currently on Drive)
-- [ ] Confirm grading weights against the syllabus (slot time now confirmed; weights still unconfirmed)
+- [x] Report deadline confirmed: June 26, via GitHub PR (Erin Dickie announcement, June 8). Course is credit/no-credit for Zaki (IMS), so weights are moot.
+- [x] Gallery submission — content/en/project/sgacc-fc-alzheimers/index.md + 3 figures, PR #430 opened to school-brainhack.github.io (awaiting review/merge).
+- [x] IMS peer-assessment form submitted (self + Jino + Michael — only the 3 IMS-credit students were assessed).
+- [ ] Optional: anonymous course feedback survey (Erin's request).
 
 ## What's done in detail
 
@@ -68,6 +71,19 @@ and `PIPELINE.md`.
     Resolves the 013S6768 "threshold or keep" question — removed, result
     unchanged.
 
+**Step 7 — Figures, presentation, gallery submission (complete).**
+- Presented Fri June 5, 3:00–3:20 pm (Michael / Zaki / Jino). Talk delivered the
+  QC-confound headline with the PCC control as the clincher; Q&A covered field-map
+  distortion correction (future work to recover sgACC signal) and the TMS
+  "background connectivity" interpolation trick.
+- Gallery page = the sole graded report deliverable (no separate document).
+  `content/en/project/sgacc-fc-alzheimers/index.md` written from the knowledge
+  base; 3 figures embedded (tsnr_sgacc_vs_pcc.png, flagged_sgacc.png,
+  glassbrain_uncorrected.png). Submitted as **PR #430** to
+  `school-brainhack.github.io`; awaiting maintainer review/merge.
+- All figures pulled off the cluster to `~/bhs_figs` ahead of the June 21 account
+  cutoff — project is now cluster-independent.
+
 ## KEY FINDING — seed signal-quality confound
 
 - **AD has systematically worse signal at the sgACC seed than CN:** mean seed
@@ -79,8 +95,8 @@ and `PIPELINE.md`.
   not a parameter artifact.
 - Implication: the AD-vs-CN sgACC FC comparison is confounded by seed-region
   signal quality (susceptibility dropout, worse in AD/site-168) and can't be
-  read as a disease effect. **The QC is the strongest result — anchor the
-  presentation on it.** (Table: `seed_qc.tsv`.)
+  read as a disease effect. **The QC is the strongest result — it anchored the
+  presentation and the gallery report.** (Table: `seed_qc.tsv`.)
 - **Corroborated two ways (June 4):** (1) a PCC positive control shows both
   groups have healthy, overlapping signal there (zero flagged) — so the deficit
   is sgACC-specific, not bad data everywhere; (2) the null survives excluding
@@ -89,17 +105,14 @@ and `PIPELINE.md`.
 
 ## What's next (immediate)
 
-1. **Deck build (today, Thu June 4):** finalize slides from the script minus the
-   cut Lyanne slide; presenters Michael/Zaki/Jino; renumber conclusions to
-   slide 8. Get the three figures to Jino (flagged-subjects bar; sgACC-vs-PCC
-   tSNR; uncorrected glass-brain) + the proposal sgACC anatomy for slide 2.
-   Apply the slide-3 resting-state fix. One timed run-through.
-2. **GitHub push:** `code/connectivity/` (`fc_utilities.py`,
-   `build_participants.py`, `seed_qc.py`, PCC/sensitivity code, `fc_one.sh`,
-   `submit_fc.sh`); update `requirements.txt`; push updated docs.
-3. **Present:** Fri June 5, 3:00–3:20 — lead with the QC finding, PCC control as
-   the clincher.
-4. **Report** — June 26.
+1. **PR #430 awaiting review/merge** — a BHS maintainer (Ju-Chi) has to approve
+   and merge it; link posted in the Discord thread. Out of our hands until then.
+2. **Optional:** anonymous course feedback survey (Erin's request).
+3. **Optional:** push final connectivity code + updated docs to the project repo
+   (`JinoTyped/alzheimers-fc-brainhack`) if not already synced.
+
+With the gallery PR submitted and the IMS peer-assessment form in, the graded
+work is effectively complete pending the merge.
 
 ## Decision log (additions June 1-2)
 
@@ -138,11 +151,30 @@ and `PIPELINE.md`.
 - **Presentation slot CONFIRMED:** Fri June 5, 3:00–3:20 pm; talk 5–10 min
   (target ~7); 20-min slot leaves room for Q&A.
 
+### Additions June 14
+- Deadline CONFIRMED: June 26, submitted via GitHub PR (Erin Dickie, June 8). The
+  gallery page IS the sole graded report deliverable — no separate document
+  (TA-confirmed earlier).
+- Cluster sunset: SciNet Teach account active only to June 21; data centre fully
+  down June 22-26 (through the deadline). All three figures pulled to ~/bhs_figs
+  before the cutoff → project is now cluster-independent.
+- Gallery page built from README/PROGRESS/DATA_SELECTION content; folder
+  sgacc-fc-alzheimers; figures tsnr_sgacc_vs_pcc.png, flagged_sgacc.png,
+  glassbrain_uncorrected.png (renamed from AD_vs_CN_sgACC_FC.png). PR #430.
+- Published author list: all 6 team members (Zaki, Michael, Jino, Lyanne, Rehan,
+  Gabby). IMS peer-assessment (separate IMS-module requirement) covered only the
+  3 IMS-credit students.
+
 ## Open questions / to confirm
 
-- **Grading weights** — still unconfirmed against the syllabus (~20/30/30/20).
-  Deadline dates and the presentation slot are now confirmed (Fri June 5
-  3:00–3:20; report June 26); only the weights remain to verify.
+- **Nothing outstanding.** Report deadline (June 26) confirmed; course is
+  credit/no-credit for Zaki (IMS) so grading weights are moot. The only remaining
+  dependency is the maintainer merge of PR #430.
+
+### Resolved June 14
+- Report deadline → June 26 confirmed (Erin Dickie announcement).
+- Sole deliverable → the gallery PR (no separate report document).
+- Grading weights → moot (credit/no-credit for Zaki via IMS).
 
 ### Resolved this session (June 4) — moved out of open questions
 - Correction method → FDR q<0.05 primary (see decision log).

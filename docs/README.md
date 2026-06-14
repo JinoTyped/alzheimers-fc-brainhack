@@ -40,13 +40,16 @@ comparison is confounded by seed-region signal quality / scanner site and can't
 be read as a disease effect. **This QC finding is the project's headline** and
 anchors the presentation. See `PROGRESS.md` for the full status + decision log.
 
-Remaining work: figures + presentation (~June 5) and report (~June 26); a few
-open team decisions (correction method, how to frame the confound). Push today's
-analysis code to GitHub under `code/connectivity/`.
+Remaining work: **none blocking.** The June 5 presentation is done and the
+gallery report (the sole graded deliverable) was submitted as **PR #430** to the
+BrainHack website on June 14 — now awaiting maintainer merge. The IMS
+peer-assessment form is in. Figures are pulled locally ahead of the June 21
+cluster cutoff. See `PROGRESS.md` for the full status + decision log.
 
 ## Key deadlines
 
-- **~June 5** — completed-project presentation
-- **~June 26** — final report
+- **June 5** — completed-project presentation (done)
+- **June 26** — final report = gallery PR (CONFIRMED; submitted as PR #430, awaiting merge)
 
-(Confirm exact dates/weights against the BrainHack syllabus — still unconfirmed.)
+(Deadline confirmed via Erin Dickie's June 8 announcement. Course is
+credit/no-credit for Zaki via IMS.)

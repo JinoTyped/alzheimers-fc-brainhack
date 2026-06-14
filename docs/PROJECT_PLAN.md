@@ -37,10 +37,14 @@ costs nothing grade-wise.
 | When | Where | Focus |
 |------|-------|-------|
 | Done | — | Project pitch presentation |
-| Week 3 — Tue May 26, Wed May 27 | SciNet Classroom, Suite 1140, 661 University Ave (arrive before 10am) | Download data, BIDS conversion, run fMRIprep |
-| Week 4 — Mon June 1 | TMU Atrium on Bay | Instructor check-in on preprocessing progress; finalize analysis |
-| Week 4 — Thu/Fri June 4-5 | Data Sciences Institute, 700 University Ave | Final figures; **present Fri June 5, 3:00–3:20 pm** (confirmed; ~7 min talk, presenters Michael/Zaki/Jino) |
-| By June 26 | — | Final report submitted |
+| Done — May 26-27 | SciNet Classroom, Suite 1140, 661 University Ave | Download data, BIDS conversion, run fMRIprep |
+| Done — June 1 | TMU Atrium on Bay | Instructor check-in on preprocessing; finalize analysis |
+| Done — June 5 | Data Sciences Institute, 700 University Ave | **Presented Fri June 5, 3:00–3:20 pm** (Michael/Zaki/Jino) |
+| **By June 26 (CONFIRMED)** | — | **Gallery PR = final report. Submitted as PR #430 (awaiting merge).** |
+
+**Cluster sunset (Erin Dickie, June 8):** SciNet Teach accounts active only to
+**June 21**; full data-centre shutdown **June 22–26** (through the deadline). All
+figures were pulled locally before the cutoff — the project is cluster-independent.
 
 **Goal for end of Week 3:** preprocessing finished and the analysis
 pipeline running end-to-end. The school explicitly wants preprocessing done
@@ -51,12 +55,14 @@ already-preprocessed data.
 ## Deliverables and grading
 
 - Project pitch — done
-- Completed-project presentation — June 5
-- Final report — June 26
+- Completed-project presentation — done (June 5)
+- Final report = **gallery PR** — submitted as **PR #430** (June 14), awaiting merge.
+  This is the *only* report deliverable; the gallery page IS the report.
+- IMS peer-assessment form — done (Zaki/Jino/Michael; only the 3 IMS-credit students)
 - Peer engagement — ongoing (reviewing other groups)
 
-(Weights were ~20/30/30/20 per earlier discussion — verify against the
-official syllabus.)
+Deadline **CONFIRMED June 26** via GitHub PR (Erin Dickie announcement, June 8).
+Course is **credit/no-credit** for Zaki (IMS), so percentage weights are moot.
 
 ## Parallelization strategy
 

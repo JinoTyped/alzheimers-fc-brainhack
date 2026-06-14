@@ -157,17 +157,21 @@ p<0.001 only for a visible exploratory map; cluster-level not pursued).
 Confound handling = QC headline + PCC control + the sensitivity analyses above;
 no seed-tSNR/site covariate model needed for the talk.
 
-## Step 7 — Figures, presentation, report  [IN PROGRESS]
+## Step 7 — Figures, presentation, report/gallery  [DONE]
 
 - Figures (done): sgACC seed location/anatomy (proposal deck's area-25 image);
   uncorrected group glass-brain (`results_unc/AD_vs_CN_sgACC_FC.png`);
   flagged-subjects bar chart (sgACC, 12 AD / 5 CN); **sgACC-vs-PCC tSNR by
-  group (the money slide)**.
-- Presentation: **Fri June 5, 3:00–3:20 pm** (confirmed). Talk ~7 min, 20-min
-  slot with Q&A. Presenters: Michael, Zaki, Jino (Lyanne slide cut). Lead with
-  the QC confound; PCC control is the clincher.
-- Report ~June 26 — include the methods detail from DATA_SELECTION.md, the
-  QC/confound, the PCC control, and the sensitivity analyses.
+  group (the money slide)**. All three pulled locally to `~/bhs_figs` before the
+  June 21 cluster cutoff.
+- Presentation: delivered **Fri June 5, 3:00–3:20 pm**. Presenters Michael, Zaki,
+  Jino. Led with the QC confound; PCC control as the clincher.
+- Report/gallery (the sole graded deliverable): gallery page written from the
+  knowledge base into `content/en/project/sgacc-fc-alzheimers/index.md`, with the
+  3 figures (`tsnr_sgacc_vs_pcc.png`, `flagged_sgacc.png`,
+  `glassbrain_uncorrected.png`). Submitted as **PR #430** to
+  `school-brainhack.github.io` on June 14; awaiting maintainer merge. Deadline
+  CONFIRMED June 26.
 
 ---
 

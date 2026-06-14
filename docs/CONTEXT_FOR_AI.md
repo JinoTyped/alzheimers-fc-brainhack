@@ -27,10 +27,13 @@ analysis code + seed coordinate; GitHub `chichael-meng`), and Jino (repo, deck,
 figures). Lyanne contributes separate rsfMRI work, limited availability. Two
 other members aren't contributing.
 
-**WHERE I AM NOW (June 4, 2026 — Week 4, Thursday; presenting Fri June 5,
-3:00–3:20 pm):** The whole pipeline is DONE end-to-end, plus a PCC positive
-control and sensitivity analyses; figures are done and the deck is finalized
-(minus a cut Lyanne slide). Specifically:
+**WHERE I AM NOW (June 14, 2026):** Project effectively complete. Presented
+June 5; the gallery report (the sole graded deliverable) is submitted as
+**PR #430** to `school-brainhack.github.io`, awaiting maintainer merge. IMS
+peer-assessment form done. All figures pulled off the cluster to `~/bhs_figs`
+ahead of the **June 21** account cutoff (full data-centre shutdown June 22–26),
+so nothing depends on SciNet anymore. Report deadline **CONFIRMED June 26**.
+The whole pipeline (below) was DONE end-to-end as of June 4:
 
 - **Preprocessing complete** — all 50 subjects through fMRIprep
   (MNI152NLin6Asym, 2 mm; `--use-syn-sdc`, `--fs-no-reconall`). Verified.
@@ -88,11 +91,10 @@ defensible story.
 5. Lyanne's slide → **cut** (not presenting Friday); presenters Michael/Zaki/Jino.
 
 **Still open:**
-- Grading weights — confirm against the syllabus (~20/30/30/20; slot date/time
-  June 5 3:00–3:20 and report June 26 are confirmed, weights are not).
-- GitHub push of `code/connectivity/` + docs + requirements; Michael's push
-  access (his code still on Drive).
-- Slide 3 resting-state fix in the built deck (was "task-based").
+- PR #430 awaiting maintainer (Ju-Chi) review/merge — out of our hands.
+- Optional: anonymous course feedback survey (Erin's request).
+- Optional: sync final connectivity code + docs to the project repo
+  (`JinoTyped/alzheimers-fc-brainhack`) if not already done.
 
 **GitHub:** repo `alzheimers-fc-brainhack` (user `afwh12`), uploads via the web
 UI. Code-only (ADNI data never committed). Today's code goes under
